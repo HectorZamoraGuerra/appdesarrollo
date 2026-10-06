@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Objetivos · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <button type="button" class="btn btn-primary" id="btn-nuevo-objetivo">+ Nuevo objetivo</button>
+</div>
+
+<h1>Objetivos</h1>
+<p>Listado de objetivos pendiente de implementar.</p>
+
+<div class="modal-backdrop" id="modal-objetivo" {% if not form.errors %}hidden{% endif %}>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-objetivo-title">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Modal: formulario de objetivo</p>
+                <h2 id="modal-objetivo-title">Nuevo objetivo</h2>
+            </div>
+            <button type="button" class="modal-close" id="btn-cerrar-objetivo" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form class="modal-body" id="form-objetivo" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <button type="button" class="btn" id="btn-cancelar-objetivo">Cancelar</button>
+            <button type="submit" form="form-objetivo" class="btn btn-primary">Guardar objetivo</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/objetivo-modal.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ actividad.titulo }} · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="actividad-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Actividad</p>
+                <h2 id="actividad-titulo">{{ actividad.titulo }}</h2>
+            </div>
+            <a href="{% url 'core:calendario' %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form method="post" id="form-registro">
+            {% csrf_token %}
+            <div class="modal-body">
+                <p><strong>Inicio</strong> {{ actividad.fecha_inicio|date:"d M Y, H:i" }}</p>
+                <p><strong>Fin</strong> {{ actividad.fecha_fin|date:"d M Y, H:i" }}</p>
+                <p><strong>Nota</strong> {{ actividad.nota|default:"—" }}</p>
+
+                {% if actividad.completada %}
+                    <p><strong>Estado</strong> Completada</p>
+                {% else %}
+                    <div class="section-divider">Registro de rendimiento</div>
+                    {{ registro_form.as_p }}
+                {% endif %}
+            </div>
+
+            <div class="modal-footer">
+                <a href="{% url 'core:calendario' %}" class="btn">Cancelar</a>
+                {% if not actividad.completada %}
+                    <button type="submit" class="btn btn-primary">Guardar y completar</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Sistema de Rendimiento{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a href="{% url 'core:calendario' %}" class="sidebar-logo">LOGO / APP</a>
+
+            <nav class="sidebar-nav">
+                <a href="{% url 'core:calendario' %}" class="{% if active_nav == 'calendario' %}active{% endif %}">Calendario</a>
+                <a href="{% url 'core:objetivos' %}" class="{% if active_nav == 'objetivos' %}active{% endif %}">Objetivos</a>
+                <a href="{% url 'core:actividades' %}" class="{% if active_nav == 'actividades' %}active{% endif %}">Actividades</a>
+                <a href="{% url 'core:estadisticas' %}" class="{% if active_nav == 'estadisticas' %}active{% endif %}">Estadísticas</a>
+                <a href="{% url 'core:categorias' %}" class="{% if active_nav == 'categorias' %}active{% endif %}">Categorías</a>
+            </nav>
+
+            <div class="sidebar-legend">
+                <span class="item"><i class="swatch cat-salud"></i>Salud</span>
+                <span class="item"><i class="swatch cat-estudio"></i>Estudio</span>
+                <span class="item"><i class="swatch cat-trabajo"></i>Trabajo</span>
+                <span class="item"><i class="swatch cat-finanzas"></i>Finanzas</span>
+            </div>
+        </aside>
+
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script src="{% static 'core/js/base.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
