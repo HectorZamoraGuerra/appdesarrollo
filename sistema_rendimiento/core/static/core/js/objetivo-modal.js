@@ -1,6 +1,6 @@
 (function () {
     const modal = document.getElementById('modal-objetivo');
-    const openBtn = document.getElementById('btn-nuevo-objetivo');
+    const openBtns = document.querySelectorAll('.js-nuevo-objetivo');
     const closeBtn = document.getElementById('btn-cerrar-objetivo');
     const cancelBtn = document.getElementById('btn-cancelar-objetivo');
     const form = document.getElementById('form-objetivo');
@@ -17,7 +17,7 @@
         form.reset();
     }
 
-    openBtn.addEventListener('click', abrir);
+    openBtns.forEach(function (btn) { btn.addEventListener('click', abrir); });
     closeBtn.addEventListener('click', cerrar);
     cancelBtn.addEventListener('click', cerrar);
 

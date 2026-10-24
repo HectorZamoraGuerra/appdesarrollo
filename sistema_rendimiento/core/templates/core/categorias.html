@@ -3,6 +3,26 @@
 {% block title %}Categorías · Sistema de Rendimiento{% endblock %}
 
 {% block content %}
-<h1>Categorías</h1>
-<p>Listado de categorías pendiente de implementar.</p>
+<div class="page-header">
+    <div>
+        <h1>Categorías</h1>
+        <p class="page-subtitle">{{ categorias|length }} categoría{{ categorias|length|pluralize }}</p>
+    </div>
+    <a href="{% url 'core:categoria_crear' %}" class="btn btn-primary">+ Nueva categoría</a>
+</div>
+
+<div class="lista-actividades">
+    {% for categoria in categorias %}
+        <div class="actividad">
+            <i class="swatch cat-{{ categoria.nombre|slugify }}"></i>
+            <div class="actividad-info">
+                <strong>{{ categoria.nombre }}</strong>
+                {% if categoria.descripcion %}<span>{{ categoria.descripcion|truncatechars:100 }}</span>{% endif %}
+            </div>
+            <span class="actividad-fecha">{{ categoria.total_objetivos }} objetivo{{ categoria.total_objetivos|pluralize }}</span>
+        </div>
+    {% empty %}
+        <p>No hay categorías todavía.</p>
+    {% endfor %}
+</div>
 {% endblock %}

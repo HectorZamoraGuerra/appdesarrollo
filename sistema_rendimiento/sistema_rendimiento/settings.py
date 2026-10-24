@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'core',
+    'usuarios',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+# Autenticación (django.contrib.auth)
+
+LOGIN_URL = 'usuarios:login'
+LOGIN_REDIRECT_URL = 'core:calendario'
+LOGOUT_REDIRECT_URL = 'usuarios:login'
 
 
 # Email

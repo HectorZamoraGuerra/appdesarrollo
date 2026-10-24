@@ -21,6 +21,14 @@
                 <a href="{% url 'core:categorias' %}" class="{% if active_nav == 'categorias' %}active{% endif %}">Categorías</a>
             </nav>
 
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'usuarios:logout' %}" class="sidebar-logout">
+                    {% csrf_token %}
+                    <span>{{ user.get_username }}</span>
+                    <button type="submit" class="btn">Cerrar sesión</button>
+                </form>
+            {% endif %}
+
             <div class="sidebar-legend">
                 <span class="item"><i class="swatch cat-salud"></i>Salud</span>
                 <span class="item"><i class="swatch cat-estudio"></i>Estudio</span>

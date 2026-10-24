@@ -1,0 +1,90 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ objetivo.titulo }} · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<a href="{% url 'core:objetivos' %}" class="volver">← Objetivos</a>
+
+<div class="page-header">
+    <div>
+        <div class="card-objetivo-head">
+            <span class="tag"><i class="swatch cat-{{ objetivo.categoria.nombre|slugify }}"></i>{{ objetivo.categoria.nombre }}</span>
+            <span class="tag">Prioridad: {{ objetivo.get_prioridad_display }}</span>
+            <span class="tag">{{ objetivo.get_estado_display }}</span>
+        </div>
+        <h1>{{ objetivo.titulo }}</h1>
+        <p class="page-subtitle">Inicio {{ objetivo.fecha_inicio|date:"d/m/Y" }} · Meta {{ objetivo.fecha_meta|date:"d/m/Y" }}</p>
+    </div>
+</div>
+
+<dl class="conteo-actividades conteo-objetivo">
+    <div><dt>Pendientes</dt><dd>{{ pendientes }}</dd></div>
+    <div><dt>Completadas</dt><dd>{{ completadas }}</dd></div>
+    <div><dt>Vencidas</dt><dd>{{ vencidas }}</dd></div>
+</dl>
+
+{% for grafica in graficas %}
+    <section class="panel-grafica">
+        <h2>{{ grafica.titulo }}: esperado vs obtenido por sesión</h2>
+        <div class="grafica-contenedor">
+            <canvas class="grafica-rendimiento" data-fuente="{{ grafica.json_id }}"
+                    aria-label="{{ grafica.titulo }}: esperado contra obtenido por sesión" role="img"></canvas>
+        </div>
+        {{ grafica|json_script:grafica.json_id }}
+    </section>
+{% empty %}
+    <section class="panel-grafica">
+        <h2>Esperado vs obtenido por sesión</h2>
+        <p class="grafica-vacia">Todavía no hay registros de rendimiento. Aparecerán al completar actividades.</p>
+    </section>
+{% endfor %}
+
+<div class="filtros">
+    {% for field in filter.form %}
+        <div class="filtros-fila filtro-{{ field.name }}">
+            <label class="filtros-label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="lista-actividades">
+    {% for actividad in actividades %}
+        <a href="{% url 'core:actividad_detalle' actividad.pk %}" class="actividad">
+            <div class="actividad-info">
+                <strong>{{ actividad.titulo }}</strong>
+                {% if actividad.nota %}<span>{{ actividad.nota|truncatechars:80 }}</span>{% endif %}
+            </div>
+            <span class="actividad-fecha">{{ actividad.fecha_inicio|date:"d/m/Y H:i" }} – {{ actividad.fecha_fin|date:"H:i" }}</span>
+
+            {# registros_ordenados es la lista que llenó el Prefetch de la vista (sin consultas extra) #}
+            {% with registro=actividad.registros_ordenados|last %}
+                <span class="actividad-rendimiento">
+                    {% if registro %}
+                        Esperado {{ registro.esperado|floatformat:"-2" }} · Obtenido {{ registro.valor|floatformat:"-2" }}
+                    {% else %}
+                        Sin registro
+                    {% endif %}
+                </span>
+                <span class="calificacion" aria-label="Calificación {{ registro.calificacion|default:0 }} de 5">
+                    {% for i in "12345" %}<i class="{% if registro and forloop.counter <= registro.calificacion %}on{% endif %}"></i>{% endfor %}
+                </span>
+            {% endwith %}
+
+            <span class="actividad-estado estado-{{ actividad.estado }}">{{ actividad.estado.label }}</span>
+        </a>
+    {% empty %}
+        <p>No hay actividades{% if filter.form.estado.value %} en esta pestaña{% endif %}.</p>
+    {% endfor %}
+</div>
+
+{% include "core/_paginacion.html" %}
+{% endblock %}
+
+{% block extra_js %}
+{% if graficas %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{% static 'core/js/grafica-rendimiento.js' %}"></script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block title %}Nueva categoría · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="categoria-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Categoría</p>
+                <h2 id="categoria-titulo">Nueva categoría</h2>
+            </div>
+            <a href="{% url 'core:categorias' %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-categoria" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'core:categorias' %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-categoria" class="btn btn-primary">Guardar categoría</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Usuario(models.Model):
@@ -44,7 +45,25 @@ class Objetivo(models.Model):
         return self.titulo
 
 
+class ActividadQuerySet(models.QuerySet):
+    """Estados de la actividad; "vencida" se calcula con fecha_fin, no se guarda."""
+
+    def completadas(self):
+        return self.filter(completada=True)
+
+    def pendientes(self):
+        return self.filter(completada=False, fecha_fin__gte=timezone.now())
+
+    def vencidas(self):
+        return self.filter(completada=False, fecha_fin__lt=timezone.now())
+
+
 class Actividad(models.Model):
+    class Estado(models.TextChoices):
+        PENDIENTE = 'pendiente', 'Pendiente'
+        COMPLETADA = 'completada', 'Completada'
+        VENCIDA = 'vencida', 'Vencida'
+
     objetivo = models.ForeignKey(Objetivo, on_delete=models.CASCADE, related_name='actividades')
     titulo = models.CharField(max_length=200)
     nota = models.TextField(blank=True)
@@ -52,8 +71,20 @@ class Actividad(models.Model):
     fecha_inicio = models.DateTimeField()
     fecha_fin = models.DateTimeField()
 
+    objects = ActividadQuerySet.as_manager()
+
     def __str__(self):
         return self.titulo
+
+    @property
+    def esta_vencida(self):
+        return not self.completada and self.fecha_fin < timezone.now()
+
+    @property
+    def estado(self):
+        if self.completada:
+            return self.Estado.COMPLETADA
+        return self.Estado.VENCIDA if self.esta_vencida else self.Estado.PENDIENTE
 
 
 class RegistroRendimiento(models.Model):

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Sistema de Rendimiento{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    <style>
+        /* Centrado propio de login y registro, sin depender de una versión en caché de base.css */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .login-page .modal { max-width: 380px; }
+
+        .login-page .modal-body { grid-template-columns: 1fr; }
+
+        .login-page .modal-footer {
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .login-page .modal-footer a { color: var(--ink); }
+    </style>
+</head>
+<body>
+    <main class="login-page">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <p class="modal-eyebrow">Sistema de Rendimiento</p>
+                    <h2>{% block heading %}{% endblock %}</h2>
+                </div>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</body>
+</html>

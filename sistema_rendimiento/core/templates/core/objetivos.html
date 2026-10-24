@@ -4,12 +4,56 @@
 {% block title %}Objetivos · Sistema de Rendimiento{% endblock %}
 
 {% block content %}
-<div class="page-toolbar">
-    <button type="button" class="btn btn-primary" id="btn-nuevo-objetivo">+ Nuevo objetivo</button>
+<div class="page-header">
+    <div>
+        <h1>Objetivos</h1>
+        <p class="page-subtitle">
+            {{ total_objetivos }} objetivo{{ total_objetivos|pluralize }} ·
+            {{ total_en_curso }} en curso ·
+            {{ total_completados }} completado{{ total_completados|pluralize }}
+        </p>
+    </div>
+    <button type="button" class="btn btn-primary js-nuevo-objetivo">+ Nuevo objetivo</button>
 </div>
 
-<h1>Objetivos</h1>
-<p>Listado de objetivos pendiente de implementar.</p>
+<div class="filtros">
+    {% for field in filter.form %}
+        <div class="filtros-fila filtro-{{ field.name }}">
+            <label class="filtros-label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="grid-objetivos">
+    {% for objetivo in objetivos %}
+        <article class="card-objetivo">
+            <div class="card-objetivo-head">
+                <span class="tag"><i class="swatch cat-{{ objetivo.categoria.nombre|slugify }}"></i>{{ objetivo.categoria.nombre }}</span>
+                <span class="tag">Prioridad: {{ objetivo.get_prioridad_display }}</span>
+                <span class="card-objetivo-estado">{{ objetivo.get_estado_display }}</span>
+            </div>
+
+            <h2>{{ objetivo.titulo }}</h2>
+
+            <dl class="conteo-actividades">
+                <div><dt>Pendientes</dt><dd>{{ objetivo.pendientes }}</dd></div>
+                <div><dt>Completadas</dt><dd>{{ objetivo.completadas }}</dd></div>
+                <div><dt>Vencidas</dt><dd>{{ objetivo.vencidas }}</dd></div>
+            </dl>
+
+            <div class="card-objetivo-foot">
+                <span>Inicio {{ objetivo.fecha_inicio|date:"d/m" }} · Meta {{ objetivo.fecha_meta|date:"d/m/Y" }}</span>
+                <a href="{% url 'core:objetivo_detalle' objetivo.pk %}" class="btn">Ver detalle</a>
+            </div>
+        </article>
+    {% endfor %}
+
+    <button type="button" class="card-objetivo card-nuevo js-nuevo-objetivo">
+        <span class="card-nuevo-plus">+</span>
+        <span class="card-nuevo-label">+ Nuevo objetivo</span>
+    </button>
+</div>
 
 <div class="modal-backdrop" id="modal-objetivo" {% if not form.errors %}hidden{% endif %}>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-objetivo-title">
@@ -36,4 +80,5 @@
 
 {% block extra_js %}
 <script src="{% static 'core/js/objetivo-modal.js' %}"></script>
+<script src="{% static 'core/js/objetivos-filtros.js' %}"></script>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Actividad, Objetivo, RegistroRendimiento
+from .models import Actividad, Categoria, Objetivo, RegistroRendimiento
 
 
 class ActividadForm(forms.ModelForm):
@@ -61,8 +61,13 @@ class RegistroRendimientoForm(forms.ModelForm):
 
     class Meta:
         model = RegistroRendimiento
-        fields = ['tipo_indicador', 'valor', 'calificacion']
+        fields = ['tipo_indicador', 'esperado', 'valor', 'calificacion']
         widgets = {
+            'esperado': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': 'Valor esperado, ej: 30',
+            }),
             'valor': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'step': '0.01',
@@ -100,3 +105,21 @@ class ObjetivoForm(forms.ModelForm):
         if inicio and meta and meta <= inicio:
             raise forms.ValidationError('La fecha meta debe ser posterior a la de inicio.')
         return cleaned
+
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nombre', 'descripcion']
+        labels = {'descripcion': 'Descripción'}
+        widgets = {
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Salud',
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': '¿Qué tipo de objetivos agrupa esta categoría?',
+            }),
+        }

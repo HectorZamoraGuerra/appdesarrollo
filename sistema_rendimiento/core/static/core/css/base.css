@@ -113,6 +113,19 @@ body {
 .swatch.cat-trabajo { background: var(--cat-trabajo); }
 .swatch.cat-finanzas { background: var(--cat-finanzas); }
 
+.sidebar-logout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
+.sidebar-logout .btn { padding: 6px 10px; font-size: 12px; }
+
 /* ---------- main content ---------- */
 .main {
     position: relative;
@@ -146,6 +159,8 @@ body {
 
 .btn:hover { background: var(--surface-sunk); }
 
+a.btn { display: inline-block; text-decoration: none; }
+
 .btn-primary {
     background: var(--ink);
     border-color: var(--ink);
@@ -153,6 +168,337 @@ body {
 }
 
 .btn-primary:hover { opacity: 0.9; }
+
+/* ---------- lista de objetivos ---------- */
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.page-header h1 { margin-bottom: 4px; }
+
+.page-subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* Campos de ObjetivoFilter: estado y orden en la primera fila, categoría abajo */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-bottom: 16px;
+}
+
+.filtros-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.filtro-estado { order: 1; }
+.filtro-orden { order: 2; margin-left: auto; }
+.filtro-categoria { order: 3; flex-basis: 100%; }
+
+/* La etiqueta "Estado:" no aparece en el wireframe */
+.filtro-estado .filtros-label { display: none; }
+
+.filtros-label {
+    font-size: 12.5px;
+    color: var(--faint);
+    white-space: nowrap;
+}
+
+/* LinkWidget genera <ul><li><a class="selected"> */
+.filtros ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.filtros ul a {
+    display: block;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.filtros ul a:hover { background: var(--surface-sunk); }
+
+.filtros ul a.selected {
+    border-color: var(--ink);
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.filtro-orden select {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    background: var(--surface);
+}
+
+.grid-objetivos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.card-objetivo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+}
+
+.card-objetivo-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.tag .swatch { width: 8px; height: 8px; border-radius: 2px; }
+
+.card-objetivo-estado {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--faint);
+}
+
+.card-objetivo h2 {
+    margin: 4px 0 0;
+    font-size: 16px;
+}
+
+/* Conteo de actividades del objetivo por estado */
+.conteo-actividades {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+}
+
+.conteo-actividades > div {
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface-sunk);
+}
+
+.conteo-actividades dt {
+    font-size: 11.5px;
+    color: var(--muted);
+}
+
+.conteo-actividades dd {
+    margin: 2px 0 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-objetivo-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--faint);
+}
+
+.card-objetivo-foot .btn { padding: 6px 12px; white-space: nowrap; }
+.card-objetivo-foot .btn:disabled { cursor: not-allowed; opacity: 0.6; }
+
+.card-nuevo {
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    border: 1px dashed var(--faint);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.card-nuevo:hover { background: var(--surface-sunk); }
+
+.card-nuevo-plus {
+    font-size: 22px;
+    color: var(--muted);
+}
+
+.card-nuevo-label {
+    padding: 8px 16px;
+    border: 1px dashed var(--faint);
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
+/* ---------- detalle de objetivo ---------- */
+.volver {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.volver:hover { color: var(--ink); }
+
+.page-header .card-objetivo-head { margin-bottom: 8px; }
+
+.conteo-objetivo {
+    max-width: 360px;
+    margin-bottom: 20px;
+}
+
+/* Gráfica esperado vs obtenido (Chart.js) */
+.panel-grafica {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
+
+.panel-grafica h2 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.grafica-contenedor {
+    position: relative;
+    height: 220px;
+}
+
+.grafica-vacia {
+    margin: 0;
+    font-size: 13px;
+    color: var(--faint);
+}
+
+/* ---------- lista de actividades ---------- */
+.lista-actividades {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.actividad {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.actividad:hover { border-color: var(--muted); }
+
+.actividad .swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.actividad-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.actividad-info span,
+.actividad-fecha {
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
+.actividad-estado {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface-sunk);
+    white-space: nowrap;
+}
+
+.actividad-estado.estado-vencida {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--surface);
+}
+
+.actividad-estado.estado-pendiente { background: var(--surface); }
+
+/* Esperado, obtenido y calificación del registro de rendimiento */
+.actividad-rendimiento {
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.calificacion {
+    display: flex;
+    gap: 3px;
+}
+
+.calificacion i {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+}
+
+.calificacion i.on { background: var(--ink); }
+
+/* ---------- paginación ---------- */
+.paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+}
 
 /* ---------- modal ---------- */
 /* Cubre toda el área de contenido (.main); el sidebar queda visible */
@@ -219,6 +565,15 @@ body {
 }
 
 .modal-close:hover { background: var(--surface-sunk); }
+
+/* Cuando la ✕ es un enlace (páginas de formulario) en lugar de un botón */
+a.modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-decoration: none;
+}
 
 .modal-body {
     padding: 16px 20px 20px;

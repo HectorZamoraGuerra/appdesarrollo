@@ -9,7 +9,23 @@
 </div>
 
 <h1>Actividades</h1>
-<p>Listado de actividades pendiente de implementar.</p>
+<div class="lista-actividades">
+    {% for actividad in actividades %}
+        <div class="actividad">
+            <i class="swatch cat-{{ actividad.objetivo.categoria.nombre|slugify }}"></i>
+            <div class="actividad-info">
+                <strong>{{ actividad.titulo }}</strong>
+                <span>{{ actividad.objetivo.titulo }} · {{ actividad.objetivo.categoria.nombre }}</span>
+            </div>
+            <span class="actividad-fecha">{{ actividad.fecha_inicio|date:"d/m/Y H:i" }} – {{ actividad.fecha_fin|date:"H:i" }}</span>
+            {% if actividad.completada %}<span class="actividad-estado">Completada</span>{% endif %}
+        </div>
+    {% empty %}
+        <p>No hay actividades todavía.</p>
+    {% endfor %}
+</div>
+
+{% include "core/_paginacion.html" %}
 
 <!-- A6 · Formulario de Actividad — modal (desde calendario o día) -->
 <div class="modal-backdrop" id="modal-actividad" {% if not form.errors %}hidden{% endif %}>
