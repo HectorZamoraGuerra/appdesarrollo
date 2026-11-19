@@ -30,19 +30,20 @@ class ObjetivoFilter(django_filters.FilterSet):
     GRUPOS_ESTADO = {
         'activos': [Objetivo.Estado.PENDIENTE, Objetivo.Estado.EN_PROGRESO],
         'completados': [Objetivo.Estado.COMPLETADO],
-        'cancelados': [Objetivo.Estado.CANCELADO],
+        'vencidos': [Objetivo.Estado.VENCIDO],
     }
 
     estado = django_filters.ChoiceFilter(
         label='Estado',
-        choices=[('activos', 'Activos'), ('completados', 'Completados'), ('cancelados', 'Cancelados')],
+        choices=[('activos', 'Activos'), ('completados', 'Completados'), ('vencidos', 'Vencidos')],
         method='filtrar_estado',
         empty_label='Todos',
         widget=LinkWidget,
     )
     categoria = django_filters.ModelChoiceFilter(
         label='Categoría',
-        queryset=Categoria.objects.order_by('nombre'),
+        # Solo las categorías del usuario; django-filter llama esta función con el request
+        queryset=lambda request: Categoria.objects.filter(usuario=request.user).order_by('nombre'),
         empty_label='Todas',
         widget=LinkWidget,
     )

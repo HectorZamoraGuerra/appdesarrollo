@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block title %}{% if object %}Editar categoría{% else %}Nueva categoría{% endif %} · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">{% if object %}Editar categoría{% else %}Categoría{% endif %}</p>
+                <h2 id="modal-titulo">{{ object|default:"Nueva categoría" }}</h2>
+            </div>
+            <a href="{% url 'core:categorias' %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-categoria" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'core:categorias' %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-categoria" class="btn btn-primary">{% if object %}Guardar cambios{% else %}Guardar categoría{% endif %}</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

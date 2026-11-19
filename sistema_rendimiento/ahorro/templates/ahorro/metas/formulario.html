@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block title %}{% if object %}Editar meta{% else %}Nueva meta{% endif %} · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">{% if object %}Editar meta de ahorro{% else %}Meta de ahorro{% endif %}</p>
+                <h2 id="modal-titulo">{{ object|default:"Nueva meta" }}</h2>
+            </div>
+            <a href="{% if object %}{% url 'ahorro:meta_detalle' object.pk %}{% else %}{% url 'ahorro:metas' %}{% endif %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-meta" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% if object %}{% url 'ahorro:meta_detalle' object.pk %}{% else %}{% url 'ahorro:metas' %}{% endif %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-meta" class="btn btn-primary">{% if object %}Guardar cambios{% else %}Guardar meta{% endif %}</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

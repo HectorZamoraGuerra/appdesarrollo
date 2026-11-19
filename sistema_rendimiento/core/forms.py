@@ -28,6 +28,10 @@ class ActividadForm(forms.ModelForm):
             }),
         }
 
+    def __init__(self, *args, usuario, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['objetivo'].queryset = Objetivo.objects.filter(usuario=usuario).order_by('titulo')
+
     def clean(self):
         cleaned = super().clean()
         inicio = cleaned.get('fecha_inicio')
@@ -97,6 +101,10 @@ class ObjetivoForm(forms.ModelForm):
                 format='%Y-%m-%dT%H:%M',
             ),
         }
+
+    def __init__(self, *args, usuario, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.filter(usuario=usuario).order_by('nombre')
 
     def clean(self):
         cleaned = super().clean()

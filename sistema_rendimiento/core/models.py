@@ -1,24 +1,25 @@
+from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
-class Usuario(models.Model):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150, unique=True)
-    password_hash = models.CharField(max_length=255)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.username
-
-
 class Categoria(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='categorias')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='categorias')
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
 
     def __str__(self):
         return self.nombre
+
+
+class ObjetivoQuerySet(models.QuerySet):
+    def marcar_vencidos(self):
+        """Pasa a "vencido" los objetivos pendientes o en progreso cuya fecha meta ya pasó."""
+        return self.filter(
+            estado__in=[Objetivo.Estado.PENDIENTE, Objetivo.Estado.EN_PROGRESO],
+            fecha_meta__lt=timezone.now(),
+        ).update(estado=Objetivo.Estado.VENCIDO)
 
 
 class Objetivo(models.Model):
@@ -31,9 +32,9 @@ class Objetivo(models.Model):
         PENDIENTE = 'pendiente', 'Pendiente'
         EN_PROGRESO = 'en_progreso', 'En progreso'
         COMPLETADO = 'completado', 'Completado'
-        CANCELADO = 'cancelado', 'Cancelado'
+        VENCIDO = 'vencido', 'Vencido'
 
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='objetivos')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='objetivos')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='objetivos')
     titulo = models.CharField(max_length=200)
     estado = models.CharField(max_length=20, choices=Estado.choices, default=Estado.PENDIENTE)
@@ -41,8 +42,13 @@ class Objetivo(models.Model):
     fecha_inicio = models.DateTimeField()
     fecha_meta = models.DateTimeField()
 
+    objects = ObjetivoQuerySet.as_manager()
+
     def __str__(self):
         return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('core:objetivo_detalle', args=[self.pk])
 
 
 class ActividadQuerySet(models.QuerySet):
@@ -75,6 +81,9 @@ class Actividad(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('core:actividad_detalle', args=[self.pk])
 
     @property
     def esta_vencida(self):

@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block title %}Eliminar objetivo · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Eliminar objetivo</p>
+                <h2 id="modal-titulo">{{ object }}</h2>
+            </div>
+            <a href="{% url 'core:objetivo_detalle' object.pk %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-eliminar" method="post">
+            {% csrf_token %}
+            <p>¿Seguro que quieres eliminar «{{ object }}»? Esta acción no se puede deshacer.</p>
+            {% with total=object.actividades.count %}{% if total %}
+                <p class="aviso-eliminar">También se eliminará{{ total|pluralize:"n" }} {{ total }} actividad{{ total|pluralize:"es" }} y sus registros de rendimiento.</p>
+            {% endif %}{% endwith %}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'core:objetivo_detalle' object.pk %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-eliminar" class="btn btn-primary">Eliminar</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

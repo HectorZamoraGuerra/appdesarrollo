@@ -743,3 +743,34 @@ textarea.form-control { resize: vertical; min-height: 64px; }
 @media (prefers-reduced-motion: no-preference) {
     .modal-backdrop { transition: opacity 0.12s ease; }
 }
+
+/* ---------- editar / eliminar ---------- */
+.acciones {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.acciones .btn { padding: 6px 12px; }
+
+.modal-footer .footer-izquierda { margin-right: auto; }
+
+.aviso-eliminar {
+    font-size: 13px;
+    color: var(--cat-finanzas);
+}
+
+/* ---------- barra de avance (estadísticas y ahorro) ---------- */
+.medidor-barra {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--line);
+    overflow: hidden;
+}
+
+.medidor-barra i {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    background: var(--ink);
+}

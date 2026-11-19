@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Ahorro · Sistema de Rendimiento{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'ahorro/css/ahorro.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Ahorro</h1>
+        <p class="page-subtitle">{{ metas|length }} meta{{ metas|length|pluralize }} de ahorro</p>
+    </div>
+    <a href="{% url 'ahorro:meta_crear' %}" class="btn btn-primary">+ Nueva meta</a>
+</div>
+
+<div class="grid-objetivos">
+    {% for meta in metas %}
+        <article class="card-objetivo">
+            <h2>{{ meta.nombre }}</h2>
+            <p class="ahorro-cifras">
+                <strong>${{ meta.ahorrado|floatformat:"2g" }}</strong> de ${{ meta.monto_meta|floatformat:"2g" }} · {{ meta.avance }} %
+            </p>
+            <span class="medidor-barra" role="img" aria-label="Avance {{ meta.avance }} %"><i style="width: {{ meta.ancho }}%"></i></span>
+            <div class="card-objetivo-foot">
+                <span>
+                    {% if meta.faltante %}Faltan ${{ meta.faltante|floatformat:"2g" }}{% else %}Meta alcanzada{% endif %}
+                    · Meta {{ meta.fecha_meta|date:"d/m/Y" }}
+                </span>
+                <a href="{% url 'ahorro:meta_detalle' meta.pk %}" class="btn">Ver detalle</a>
+            </div>
+        </article>
+    {% empty %}
+        <p>No hay metas de ahorro todavía.</p>
+    {% endfor %}
+</div>
+{% endblock %}

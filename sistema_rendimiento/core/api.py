@@ -6,6 +6,8 @@ from .serializers import ActividadEventoSerializer
 
 
 class ActividadListAPIView(ListAPIView):
-    queryset = Actividad.objects.all()
     serializer_class = ActividadEventoSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Actividad.objects.filter(objetivo__usuario=self.request.user)

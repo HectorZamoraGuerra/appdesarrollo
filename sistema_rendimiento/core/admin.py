@@ -1,12 +1,6 @@
 from django.contrib import admin
 
-from .models import Actividad, Categoria, Objetivo, RegistroRendimiento, Usuario
-
-
-@admin.register(Usuario)
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'fecha_registro')
-    search_fields = ('username', 'email')
+from .models import Actividad, Categoria, Objetivo, RegistroRendimiento
 
 
 @admin.register(Categoria)

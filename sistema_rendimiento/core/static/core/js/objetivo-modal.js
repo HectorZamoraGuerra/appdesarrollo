@@ -9,7 +9,7 @@
 
     function abrir() {
         modal.hidden = false;
-        document.getElementById('id_titulo').focus();
+        document.getElementById('id_nuevo-titulo').focus();
     }
 
     function cerrar() {

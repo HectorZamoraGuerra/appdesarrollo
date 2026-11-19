@@ -17,7 +17,8 @@
                 <a href="{% url 'core:calendario' %}" class="{% if active_nav == 'calendario' %}active{% endif %}">Calendario</a>
                 <a href="{% url 'core:objetivos' %}" class="{% if active_nav == 'objetivos' %}active{% endif %}">Objetivos</a>
                 <a href="{% url 'core:actividades' %}" class="{% if active_nav == 'actividades' %}active{% endif %}">Actividades</a>
-                <a href="{% url 'core:estadisticas' %}" class="{% if active_nav == 'estadisticas' %}active{% endif %}">Estadísticas</a>
+                <a href="{% url 'ahorro:metas' %}" class="{% if active_nav == 'ahorro' %}active{% endif %}">Ahorro</a>
+                <a href="{% url 'estadisticas:panel' %}" class="{% if active_nav == 'estadisticas' %}active{% endif %}">Estadísticas</a>
                 <a href="{% url 'core:categorias' %}" class="{% if active_nav == 'categorias' %}active{% endif %}">Categorías</a>
             </nav>
 

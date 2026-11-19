@@ -1,0 +1,50 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ meta.nombre }} · Sistema de Rendimiento{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'ahorro/css/ahorro.css' %}">
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'ahorro:metas' %}" class="volver">← Ahorro</a>
+
+<div class="page-header">
+    <div>
+        <h1>{{ meta.nombre }}</h1>
+        <p class="page-subtitle">Meta de ${{ meta.monto_meta|floatformat:"2g" }} para el {{ meta.fecha_meta|date:"d/m/Y" }}</p>
+    </div>
+    <div class="acciones">
+        <a href="{% url 'ahorro:meta_editar' meta.pk %}" class="btn">Editar</a>
+        <a href="{% url 'ahorro:meta_eliminar' meta.pk %}" class="btn">Eliminar</a>
+        <a href="{% url 'ahorro:movimiento_crear' meta.pk %}" class="btn btn-primary">+ Registrar movimiento</a>
+    </div>
+</div>
+
+<dl class="conteo-actividades conteo-objetivo">
+    <div><dt>Ahorrado</dt><dd>${{ meta.ahorrado|floatformat:"2g" }}</dd></div>
+    <div><dt>Falta</dt><dd>${{ meta.faltante|floatformat:"2g" }}</dd></div>
+    <div><dt>Avance</dt><dd>{{ meta.avance }} %</dd></div>
+</dl>
+<span class="medidor-barra ahorro-barra" role="img" aria-label="Avance {{ meta.avance }} %"><i style="width: {{ meta.ancho }}%"></i></span>
+
+<h2 class="ahorro-subtitulo">Movimientos</h2>
+<div class="lista-actividades">
+    {% for movimiento in movimientos %}
+        <div class="actividad">
+            <div class="actividad-info">
+                <strong>{{ movimiento.get_tipo_display }}</strong>
+                {% if movimiento.nota %}<span>{{ movimiento.nota }}</span>{% endif %}
+            </div>
+            <span class="actividad-fecha">{{ movimiento.fecha|date:"d/m/Y" }}</span>
+            <span class="ahorro-monto">{% if movimiento.tipo == "retiro" %}−{% else %}+{% endif %}${{ movimiento.monto|floatformat:"2g" }}</span>
+            <div class="acciones">
+                <a href="{% url 'ahorro:movimiento_eliminar' movimiento.pk %}" class="btn">Eliminar</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Todavía no hay movimientos. Registra el primer depósito.</p>
+    {% endfor %}
+</div>
+{% endblock %}

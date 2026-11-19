@@ -1,0 +1,128 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Estadísticas · Sistema de Rendimiento{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'estadisticas/css/estadisticas.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Estadísticas</h1>
+        <p class="page-subtitle">Cumplimiento y rendimiento de todas las actividades</p>
+    </div>
+</div>
+
+<dl class="kpis">
+    <div>
+        <dt>Cumplimiento general</dt>
+        <dd class="kpi-valor">{% if cumplimiento.porcentaje is not None %}{{ cumplimiento.porcentaje }} %{% else %}—{% endif %}</dd>
+        <dd class="kpi-nota">Completadas ÷ (completadas + vencidas)</dd>
+    </div>
+    <div>
+        <dt>Actividades completadas</dt>
+        <dd class="kpi-valor">{{ cumplimiento.completadas }} <small>de {{ cumplimiento.total }}</small></dd>
+        <dd class="kpi-nota">{{ cumplimiento.vencidas }} vencida{{ cumplimiento.vencidas|pluralize }}</dd>
+    </div>
+    <div>
+        <dt>Racha actual</dt>
+        <dd class="kpi-valor">{{ rachas.actual }} <small>día{{ rachas.actual|pluralize }}</small></dd>
+        <dd class="kpi-nota">Mejor racha: {{ rachas.mejor }} día{{ rachas.mejor|pluralize }}</dd>
+    </div>
+    <div>
+        <dt>Satisfacción promedio</dt>
+        <dd class="kpi-valor">{{ satisfaccion|default:"—" }} <small>de 5</small></dd>
+        <dd class="kpi-nota">Calificación de los registros</dd>
+    </div>
+    <div>
+        <dt>Ahorro</dt>
+        {% if ahorro %}
+            <dd class="kpi-valor">{{ ahorro.porcentaje }} %</dd>
+            <dd class="kpi-nota">${{ ahorro.ahorrado|floatformat:"2g" }} de ${{ ahorro.total_metas|floatformat:"2g" }}</dd>
+        {% else %}
+            <dd class="kpi-valor">—</dd>
+            <dd class="kpi-nota"><a href="{% url 'ahorro:metas' %}">Crear una meta de ahorro</a></dd>
+        {% endif %}
+    </div>
+</dl>
+
+<section class="panel-grafica">
+    <h2>Actividades por semana (últimas 8)</h2>
+    {% if hay_semanas %}
+        <div class="grafica-contenedor">
+            <canvas id="grafica-semanas" data-fuente="datos-semanas" role="img"
+                    aria-label="Actividades completadas y vencidas por semana, últimas 8 semanas"></canvas>
+        </div>
+        {{ grafica_semanas|json_script:"datos-semanas" }}
+        <details class="tabla-datos">
+            <summary>Ver como tabla</summary>
+            <table>
+                <thead><tr><th>Semana del</th><th>Completadas</th><th>Vencidas</th></tr></thead>
+                <tbody>
+                    {% for semana in semanas %}
+                        <tr><td>{{ semana.etiqueta }}</td><td>{{ semana.completadas }}</td><td>{{ semana.vencidas }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </details>
+    {% else %}
+        <p class="grafica-vacia">No hay actividades completadas ni vencidas en las últimas 8 semanas.</p>
+    {% endif %}
+</section>
+
+<div class="estadisticas-columnas">
+    <section class="panel-grafica">
+        <h2>Cumplimiento por categoría</h2>
+        {% for categoria in categorias %}
+            <div class="medidor">
+                <span class="medidor-nombre"><i class="swatch cat-{{ categoria.nombre|slugify }}"></i>{{ categoria.nombre }}</span>
+                <span class="medidor-barra"><i style="width: {{ categoria.porcentaje }}%"></i></span>
+                <span class="medidor-cifra">{{ categoria.porcentaje }} % <small>{{ categoria.completadas }} de {{ categoria.total }}</small></span>
+            </div>
+        {% empty %}
+            <p class="grafica-vacia">Todavía no hay actividades completadas ni vencidas.</p>
+        {% endfor %}
+    </section>
+
+    <section class="panel-grafica">
+        <h2>Esperado vs obtenido por indicador</h2>
+        {% for logro in logros %}
+            <div class="medidor">
+                <span class="medidor-nombre">{{ logro.titulo }}</span>
+                <span class="medidor-barra"><i style="width: {{ logro.ancho }}%"></i></span>
+                <span class="medidor-cifra">{{ logro.porcentaje }} % <small>{{ logro.obtenido|floatformat:"-2" }} de {{ logro.esperado|floatformat:"-2" }}</small></span>
+            </div>
+        {% empty %}
+            <p class="grafica-vacia">Todavía no hay registros de rendimiento. Aparecerán al completar actividades.</p>
+        {% endfor %}
+        {% if logros %}<p class="kpi-nota">Suma obtenida ÷ suma esperada. La barra llega hasta 100 %.</p>{% endif %}
+    </section>
+</div>
+
+<section class="panel-grafica">
+    <h2>Objetivos por vencer (próximos 14 días)</h2>
+    <div class="lista-actividades">
+        {% for objetivo in por_vencer %}
+            <a href="{% url 'core:objetivo_detalle' objetivo.pk %}" class="actividad">
+                <i class="swatch cat-{{ objetivo.categoria.nombre|slugify }}"></i>
+                <div class="actividad-info">
+                    <strong>{{ objetivo.titulo }}</strong>
+                    <span>{{ objetivo.categoria.nombre }} · {{ objetivo.completadas }} de {{ objetivo.total }} actividad{{ objetivo.total|pluralize:"es" }} completada{{ objetivo.total|pluralize }}</span>
+                </div>
+                <span class="actividad-fecha">Meta {{ objetivo.fecha_meta|date:"d/m/Y" }}</span>
+            </a>
+        {% empty %}
+            <p class="grafica-vacia">Ningún objetivo activo vence en los próximos 14 días.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% if hay_semanas %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{% static 'estadisticas/js/graficas.js' %}"></script>
+{% endif %}
+{% endblock %}

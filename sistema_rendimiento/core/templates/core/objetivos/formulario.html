@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block title %}Editar objetivo · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Editar objetivo</p>
+                <h2 id="modal-titulo">{{ object }}</h2>
+            </div>
+            <a href="{% url 'core:objetivo_detalle' object.pk %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-objetivo" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'core:objetivo_detalle' object.pk %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-objetivo" class="btn btn-primary">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

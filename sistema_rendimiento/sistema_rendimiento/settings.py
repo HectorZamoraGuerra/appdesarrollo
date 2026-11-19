@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django_filters',
     'core',
     'usuarios',
+    'estadisticas',
+    'ahorro',
 ]
 
 MIDDLEWARE = [
@@ -110,9 +112,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'UTC'
+# Hora local del norte de Coahuila (franja fronteriza: sigue el horario de verano de EE. UU.).
+# Define cuándo vence una actividad y en qué día cae un registro de rendimiento; la BD sigue guardando UTC.
+TIME_ZONE = 'America/Matamoros'
 
 USE_I18N = True
 

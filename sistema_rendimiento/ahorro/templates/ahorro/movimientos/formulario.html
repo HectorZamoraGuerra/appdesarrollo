@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block title %}Registrar movimiento · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Registrar movimiento</p>
+                <h2 id="modal-titulo">{{ meta }}</h2>
+            </div>
+            <a href="{% url 'ahorro:meta_detalle' meta.pk %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-movimiento" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'ahorro:meta_detalle' meta.pk %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-movimiento" class="btn btn-primary">Guardar movimiento</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

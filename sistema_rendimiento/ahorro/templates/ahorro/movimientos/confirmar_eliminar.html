@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block title %}Eliminar movimiento · Sistema de Rendimiento{% endblock %}
+
+{% block content %}
+<div class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="modal-titulo">
+        <div class="modal-header">
+            <div>
+                <p class="modal-eyebrow">Eliminar movimiento · {{ object.meta }}</p>
+                <h2 id="modal-titulo">{{ object }}</h2>
+            </div>
+            <a href="{% url 'ahorro:meta_detalle' object.meta.pk %}" class="modal-close" aria-label="Cerrar">✕</a>
+        </div>
+
+        <form class="modal-body" id="form-eliminar" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <p>¿Seguro que quieres eliminar el {{ object.get_tipo_display|lower }} del {{ object.fecha|date:"d/m/Y" }}? Esta acción no se puede deshacer.</p>
+        </form>
+
+        <div class="modal-footer">
+            <a href="{% url 'ahorro:meta_detalle' object.meta.pk %}" class="btn">Cancelar</a>
+            <button type="submit" form="form-eliminar" class="btn btn-primary">Eliminar</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

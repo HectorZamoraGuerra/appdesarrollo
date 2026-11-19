@@ -1,0 +1,32 @@
+/* ---------- ahorro ---------- */
+.ahorro-cifras {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.ahorro-cifras strong {
+    font-size: 18px;
+    color: var(--ink);
+}
+
+.ahorro-barra {
+    display: block;
+    max-width: 360px;
+    margin: -8px 0 24px;
+}
+
+.ahorro-subtitulo {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.ahorro-monto {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
