@@ -43,5 +43,11 @@ Tablas, figuras y resultados tomados de los documentos ya entregados (`docs/entr
 | `06_pert_linea_base_80_7_dias.png` | PERT de la línea base (ruta crítica 80.7 días) |
 | `07_gantt_avance_06_oct.png` | Gantt con el avance al 06 oct |
 
+## 05 · Investigación 14. Evaluación y medición de proyectos de TI (17 nov 2026)
+| Archivo | Contenido |
+| --- | --- |
+| `01_portada.png` | Portada |
+| `02_criterios_de_evaluacion.png` | 10 criterios que se evalúan de un proyecto de TI |
+
 Las tablas de la Práctica 6 que se partían entre dos páginas se unieron en una sola imagen.
 Para regenerarlas: `docs/capturas/practicas_img.py`.

@@ -1,10 +1,6 @@
 # Evidencia de pruebas E2E (flujos completos)
 
-Ejecución: 13 nov 2026 · `python manage.py test e2e` · **8 de 8 flujos aprobados** (56 s).
-
-Cada flujo corre en Chromium (Playwright) contra el sistema levantado por Django sobre una base de prueba vacía, como un usuario real: entra con usuario y contraseña, llena formularios y hace clic. Los datos previos que no son parte del flujo se crean directamente en la base. Se grabó un video por flujo (`.webm`, 1280×800, con pausa de 0.3 s entre acciones) y una captura del estado final (`.png`).
-
-Código: `sistema_rendimiento/e2e/test_flujos.py`.
+Última ejecución: 19 nov 2026 · `python manage.py test e2e` · **8 de 8 flujos aprobados**.
 
 | # | Flujo | Requerimientos | Qué se comprueba | Resultado | Archivos |
 | --- | --- | --- | --- | --- | --- |
@@ -16,6 +12,12 @@ Código: `sistema_rendimiento/e2e/test_flujos.py`.
 | 06 | Vencimiento de objetivos | RF7 | Un objetivo pendiente con fecha meta pasada aparece como "Vencido" y en el filtro "Vencidos" | Aprobado | `06_vencimiento_de_objetivos.webm` / `.png` |
 | 07 | Ahorro | RF16 | Alta de meta; depósito; retiro mayor a lo ahorrado rechazado con mensaje; retiro válido; avance y faltante actualizados | Aprobado | `07_ahorro.webm` / `.png` |
 | 08 | Dashboard de estadísticas | RF15 | Cumplimiento 67 %, 2 de 3 completadas, mejor racha de 2 días, ahorro 25 %, gráfica semanal, logro por indicador y vista de tabla | Aprobado | `08_dashboard_de_estadisticas.webm` / `.png` |
+
+## Cómo se probó
+
+Cada flujo corre en Chromium (Playwright) contra el sistema levantado por Django sobre una base de prueba vacía, como un usuario real: entra con usuario y contraseña, llena formularios y hace clic. Los datos previos que no son parte del flujo se crean directamente en la base. Se grabó un video por flujo (`.webm`, 1280×800, con pausa de 0.3 s entre acciones) y una captura del estado final (`.png`).
+
+Código: `sistema_rendimiento/e2e/test_flujos.py`.
 
 ## Hallazgos y correcciones (A29)
 

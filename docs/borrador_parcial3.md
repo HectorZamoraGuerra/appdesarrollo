@@ -1,5 +1,7 @@
 # Borrador · Parcial 3. Presentación y demostración de prácticas
 
+> Reemplazado por `capturas/documento_parcial3.py`, que genera el Word final (`entregas/Parcial3_Presentacion_Demostracion.docx`). Este borrador ya no se actualiza.
+
 Rúbrica: `entregas/Parcial3_Enunciado.pdf` (F-ACA-10, 35 pts). Entrega: 23 nov 2026, se presenta al inicio de la clase.
 Los puntos marcados **[CONFIRMAR]** necesitan un dato del alumno antes de generar el Word.
 

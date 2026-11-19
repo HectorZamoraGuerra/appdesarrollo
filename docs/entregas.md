@@ -47,3 +47,18 @@ Rúbrica: `F-ACA-10` (35 pts). Entrega: `Parcial2_Presentacion_Demostracion.docx
 - KPI: **57 % real contra 68 % planeado** (11 puntos abajo, supera el umbral de 5). Atraso en A8, A35 y ahorro.
 - Acción correctiva: ahorro (A36–A38) en mínimo funcional, estimado al 31 oct.
 - Re-estimación PERT de lo pendiente; nueva ruta crítica: corte → A35 → M4 → D1 → T1 → C1 = **82.6 días (28 nov)**, holgura 1.4 días.
+
+## Investigación 14 — Evaluación y medición de proyectos de TI (17 nov 2026)
+
+Archivo: `Investigacion14_Evaluacion_y_Medicion.pdf` (7 láminas)
+
+Qué es la evaluación de proyectos de TI; cómo se determinan las métricas al concluir (línea base, KPIs, datos post-implementación, análisis de varianza); 10 criterios de evaluación (ROI, requisitos, calidad del código, rendimiento, satisfacción, seguridad, desviación de presupuesto y cronograma, tasa de errores, documentación, impacto en procesos); y los resultados que definen continuar, cambiar o cancelar un proyecto.
+
+## Parcial 3 — Presentación y demostración de prácticas (entrega 23 nov 2026)
+
+Rúbrica: `Parcial3_Enunciado.pdf` (F-ACA-10, 35 pts, unidad Factibilidad del proyecto). Entrega: `Parcial3_Presentacion_Demostracion.docx`, generado con `capturas/documento_parcial3.py`; imágenes en `capturas/parcial3/` (`codigo_vscode.py` y `storyboards_e2e.py`).
+
+- Matriz de riesgos: 5 riesgos presentados (atraso del ahorro, alcance del calendario, datos compartidos entre usuarios, errores de interfaz detectados por E2E, trabajo fuera del repositorio) y 5 posibles (C1 sin holgura, falla de la demo, CDN, sobrecarga, cambios de requerimientos).
+- Factibilidad técnica, económica ($19,950 MXN estimados, sin gasto en efectivo), operativa, de tiempo y legal; justificación de tecnologías e impactos por ámbito.
+- Penúltimo avance al 19 nov: **89 % real contra 92 % planeado**; O1, O3 y O4 cumplidos; falta A8 en O2; O5 en curso (38 pruebas unitarias y 8 flujos E2E aprobados); O6 por iniciar.
+- Evidencia: storyboards de los 8 videos E2E, capturas con estilo de VS Code del código de pruebas, de la estructura de carpetas y de la ejecución en terminal.
