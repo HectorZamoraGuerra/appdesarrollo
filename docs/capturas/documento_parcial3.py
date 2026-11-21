@@ -379,43 +379,34 @@ tabla(
 )
 
 doc.add_heading('4.2 Flujos del sistema', level=2)
-parrafo('Recorrido de las funciones principales tal como las usa una persona, con datos de ejemplo de dos meses '
-        'de uso (entrenamiento para una carrera, un curso de inglés, control de gastos y metas de ahorro).')
+parrafo('Recorrido de las funciones principales tal como las usa una persona, con datos de ejemplo de dos meses de '
+        'uso. Cada figura muestra los pasos en orden; el recuadro rojo señala lo que se usa en ese paso y, en el '
+        'último, el resultado que confirma que la acción se realizó.')
 FL = P3 / 'flujos'
-FLUJOS = [
-    ('Flujo 1. Crear una categoría',
-     'Desde Categorías se abre el formulario, se escribe el nombre y la descripción, y la categoría aparece en la '
-     'lista y ya puede usarse en los objetivos.',
-     [('F1_2_formulario_de_categoria', 'Formulario de la nueva categoría.'),
-      ('F1_3_categoria_creada', 'La categoría aparece en la lista.')]),
-    ('Flujo 2. Crear un objetivo',
-     'Se elige la categoría, la prioridad y las fechas; el objetivo aparece con el conteo de sus actividades.',
-     [('F2_1_formulario_de_objetivo', 'Formulario del nuevo objetivo.'),
-      ('F2_2_lista_de_objetivos', 'Lista de objetivos con el nuevo objetivo.')]),
-    ('Flujo 3. Crear una actividad',
-     'La actividad se liga a un objetivo y se agenda con fecha y hora; de inmediato se ve en el calendario.',
-     [('F3_1_formulario_de_actividad', 'Formulario de la nueva actividad.'),
-      ('F3_2_actividad_en_el_calendario', 'Calendario del mes con la actividad agendada.')]),
-    ('Flujo 4. Registrar el resultado de una actividad',
-     'Al terminar una actividad se anota lo esperado, lo obtenido y qué tan satisfecho se quedó; la actividad queda '
-     'completada y su resultado se suma a la gráfica del objetivo.',
-     [('F4_1_registro_de_rendimiento', 'Registro del resultado de la actividad.'),
-      ('F4_2_objetivo_con_su_grafica', 'Objetivo con su gráfica de lo esperado contra lo obtenido.')]),
-    ('Flujo 5. Ahorro',
-     'Cada meta muestra cuánto se lleva y cuánto falta. El sistema no permite retirar más de lo ahorrado; un depósito '
-     'actualiza el avance.',
-     [('F5_1_metas_de_ahorro', 'Metas de ahorro con su avance.'),
-      ('F5_2_retiro_rechazado', 'Retiro mayor a lo ahorrado: el sistema lo rechaza.')]),
-]
-for titulo, descripcion, imagenes in FLUJOS:
+for archivo, titulo, descripcion in [
+    ('F1', 'Flujo 1. Crear una categoría',
+     'La categoría nueva aparece en la lista y ya se puede elegir al crear un objetivo.'),
+    ('F2', 'Flujo 2. Crear un objetivo',
+     'El objetivo aparece en la lista, tiene su propio detalle y su categoría lo cuenta.'),
+    ('F3', 'Flujo 3. Crear una actividad',
+     'La actividad queda agendada en el calendario, en su día y en su horario.'),
+    ('F4', 'Flujo 4. Registrar el resultado de una actividad',
+     'Antes y después: la actividad pasa a completada y su resultado se agrega a la gráfica del objetivo.'),
+    ('F5', 'Flujo 5. Registrar un depósito de ahorro',
+     'Antes y después: lo ahorrado, lo que falta y el avance de la meta se actualizan.'),
+]:
     doc.add_heading(titulo, level=3)
-    # El título y la descripción van en la misma página que sus imágenes
     parrafo(descripcion).paragraph_format.keep_with_next = True
-    figuras_dobles([(img(FL / f'{archivo}.png'), pie) for archivo, pie in imagenes])
+    # Sin pie de figura: el título del flujo ya dice qué muestra; así caben dos flujos por página
+    imagen = doc.add_paragraph()
+    imagen.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    imagen.paragraph_format.space_after = Pt(8)
+    imagen.add_run().add_picture(img(FL / f'{archivo}_collage.png'), width=Inches(5.3))
 doc.add_heading('Flujo 6. Estadísticas', level=3)
-parrafo('Con la información registrada, el panel resume el cumplimiento, los días seguidos de constancia, el avance '
-        'del ahorro, las actividades por semana y los objetivos próximos a vencer.').paragraph_format.keep_with_next = True
-figura(img(FL / 'F6_1_dashboard_de_estadisticas.png'), 'Panel de estadísticas.', 5.8)
+parrafo('Con lo registrado en los flujos anteriores, el panel resume el cumplimiento, los días seguidos de '
+        'constancia, el avance del ahorro, las actividades por semana y los objetivos próximos a '
+        'vencer.').paragraph_format.keep_with_next = True
+figura(img(FL / 'F6_estadisticas.png'), 'Panel de estadísticas.', 5.6)
 
 doc.add_heading('4.3 Pruebas del sistema', level=2)
 parrafo('El sistema se revisa con pruebas automáticas que se ejecutan con un solo comando. Hay cuatro tipos:')
